@@ -1,0 +1,21 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <!--
+    This jelly script is used for per-project configuration.
+
+    See global.jelly for a general discussion about jelly script.
+  -->
+
+  <!--
+   Creates a text area that shows the value of the "sript" property.
+    When submitted, it will be passed to the corresponding constructor parameter.
+  -->
+  <f:entry title="${%Script}" help="/plugin/SATAnalyzerTrigger/help/help-script.html">
+    <textarea class="setting-input" name="script"
+              rows="5" style="width:100%">${it.script}</textarea>
+  </f:entry>
+
+  <f:entry title="${%Run script only if there are changes in the code base}" help="/plugin/SATAnalyzerTrigger/help/help-runifcodebasechanged.html">
+    <f:checkbox name="RunIfJobCodeBaseChanged" value="true" checked="${it.isRunIfJobCodeBaseChanged()}" />
+  </f:entry>
+</j:jelly>
