@@ -3,5 +3,5 @@
   This view is used to render the installed plugins page.
 -->
 <div>
-  This plugin is a sample to explain how to write a Jenkins plugin.
+  This plugin is a Post build plugin to trigger SATAnalyzer tool when jenkins build the project.
 </div>

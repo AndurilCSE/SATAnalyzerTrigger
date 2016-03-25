@@ -38,8 +38,7 @@ public class SATPostBuilder extends Recorder implements BuildStep {
 
     // Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
     @DataBoundConstructor
-    public SATPostBuilder(String script, boolean RunIfJobCodeBaseChanged) {//(String name, String script, boolean RunIfJobCodeBaseChanged) {
-        //this.name = name;
+    public SATPostBuilder(String script, boolean RunIfJobCodeBaseChanged) {
         this.script=script;
         this.RunIfJobCodeBaseChanged=RunIfJobCodeBaseChanged;
     }
@@ -68,7 +67,7 @@ public class SATPostBuilder extends Recorder implements BuildStep {
         listener.getLogger().println("Performing Post build task..."+pr.toString());
 
         try {
-            listener.getLogger().println("Entering try block... script : "+script+" Code change : "+RunIfJobCodeBaseChanged);
+            listener.getLogger().println("Entering try block... script : "+script+" Checkbox checked: "+RunIfJobCodeBaseChanged);
 
                 if (pr!=null && pr.isWorseThan(Result.UNSTABLE)) {
                     listener.getLogger().println("Skipping post build task - job status is worse than unstable : "+build.getResult());
@@ -94,61 +93,7 @@ public class SATPostBuilder extends Recorder implements BuildStep {
         return true;
     }
 
-    /*
-    @Override
-    public void perform(Run<?,?> build, FilePath workspace, Launcher launcher, TaskListener listener) {
-        // This is where you 'build' the project.
-        // Since this is a dummy, we just say 'hello world' and call that a build.
 
-        // This also shows how you can consult the global configuration of the builder
-        if (getDescriptor().getUseFrench()) {
-            //listener.getLogger().println("Bonjour, " + name + "!");
-            listener.getLogger().println("Script, " + script + "!");
-            listener.getLogger().println("RunIf, " + RunIfJobCodeBaseChanged + "!");
-        } else {
-            //listener.getLogger().println("Hello, " + name + "!");
-            listener.getLogger().println("Script, " + script + "!");
-            listener.getLogger().println("RunIf, " + RunIfJobCodeBaseChanged + "!");
-        }
-
-        // Post build logic to invoke SATAnalyzer/
-        String buildLog="";
-        try {
-            buildLog = build.getLog();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        listener.getLogger().println("Performing Post build task...");
-        Result pr = build.getResult();
-        listener.getLogger().println("Performing Post build task..." + pr.toString());
-
-        try {
-            listener.getLogger().println("Entering try block..." + RunIfJobCodeBaseChanged + " script : " + script);
-
-            if (pr != null && pr.isWorseThan(Result.UNSTABLE)) {
-                listener.getLogger().println("Skipping post build task " + i + " - job status is worse than unstable : " + build.getResult());
-                return
-            }
-            if (RunIfJobCodeBaseChanged) {
-                listener.getLogger().println("Code changes between previous build and current build are checked ");
-                if (!checkLogForCodeChange(buildLog, listener)) {
-                    listener.getLogger().println("There is no code changes between previous build and current build, so skipping script");
-
-                }
-            }
-            listener.getLogger().println("Running script  : " + script);
-            CommandInterpreter runner = getCommandInterpreter(launcher, script);
-            Result result = runner.perform(build, launcher, listener) ? Result.SUCCESS : Result.FAILURE;
-            listener.getLogger().println("POST BUILD TASK : " + result.toString());
-            listener.getLogger().println("END OF POST BUILD TASK : " + i);
-
-
-        } catch (Exception e) {
-            listener.getLogger().println("Exception when executing the batch command : " + e.getMessage());
-
-        }
-    }
-    */
     /*
     *Check the log for the information about the code changes between the previous build and current build
     *
@@ -218,7 +163,7 @@ public class SATPostBuilder extends Recorder implements BuildStep {
          * <p>
          * If you don't want fields to be persisted, use <tt>transient</tt>.
          */
-        private boolean useFrench;
+        //private boolean useFrench;
 
         /**
          * In order to load the persisted global configuration, you have to 
@@ -229,26 +174,7 @@ public class SATPostBuilder extends Recorder implements BuildStep {
             load();
         }
 
-        /**
-         * Performs on-the-fly validation of the form field 'name'.
-         *
-         * @param value
-         *      This parameter receives the value that the user has typed.
-         * @return
-         *      Indicates the outcome of the validation. This is sent to the browser.
-         *      <p>
-         *      Note that returning {@link FormValidation#error(String)} does not
-         *      prevent the form from being saved. It just means that a message
-         *      will be displayed to the user. 
-         */
-        public FormValidation doCheckName(@QueryParameter String value)
-                throws IOException, ServletException {
-            if (value.length() == 0)
-                return FormValidation.error("Please set a name");
-            if (value.length() < 4)
-                return FormValidation.warning("Isn't the name too short?");
-            return FormValidation.ok();
-        }
+
 
         public boolean isApplicable(Class<? extends AbstractProject> aClass) {
             // Indicates that this builder can be used with all kinds of project types 
@@ -266,7 +192,7 @@ public class SATPostBuilder extends Recorder implements BuildStep {
         public boolean configure(StaplerRequest req, JSONObject formData) throws FormException {
             // To persist global configuration information,
             // set that to properties and call save().
-            useFrench = formData.getBoolean("useFrench");
+            //useFrench = formData.getBoolean("useFrench");
             req.bindJSON(this, formData);
             //  (easier when there are many fields; need set* methods for this, like setUseFrench)
             save();
@@ -279,9 +205,12 @@ public class SATPostBuilder extends Recorder implements BuildStep {
          * The method name is bit awkward because global.jelly calls this method to determine
          * the initial state of the checkbox by the naming convention.
          */
+        /*
         public boolean getUseFrench() {
+
             return useFrench;
         }
+         */
     }
 }
 
